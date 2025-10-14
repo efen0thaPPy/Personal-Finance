@@ -1,31 +1,36 @@
 package com.n0thaPPy.PersonalFinance.Service;
 
+import com.n0thaPPy.PersonalFinance.Roles;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtService {
 
     private final String secretkey=getSecretKey();
-    public String generateToken(String username) {
+    public String generateToken(String username, Set<Roles> roles) {
+
         Map<String, Object> claims= new HashMap<>();
+        List<String>rolesList=roles.stream().map(Enum::name).toList();
+
+        claims.put("roles",rolesList);
+        claims.put("iat",new Date(System.currentTimeMillis()));
+        claims.put("exp",new Date(System.currentTimeMillis()*1000*60*60));
+        claims.put("sub",username);
+
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()*1000*60*60))
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
 

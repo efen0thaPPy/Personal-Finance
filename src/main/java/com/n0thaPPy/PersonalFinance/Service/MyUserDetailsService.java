@@ -23,7 +23,6 @@ public class MyUserDetailsService implements UserDetailsService {
 
 
 
-
     @Autowired
     UserRepo repo;
 
@@ -31,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user=repo.findUserByUsername(username);
+        User user=repo.findByUsername(username);
         if(user==null)
         {
             throw new UsernameNotFoundException("404");
@@ -44,8 +43,13 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
 
-    public boolean findByUsername(String username) {
-       User user=repo.findUserByUsername(username);
+    public boolean doesUsernameExist(String username) {
+       User user=repo.findByUsername(username);
        return user!=null;
+    }
+
+    public User findUserByUsername(String username)
+    {
+       return repo.findByUsername(username);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -25,5 +26,15 @@ public class TransactionService {
 
     public void deleteById(int id) {
         repo.deleteById(id);
+    }
+
+    public List<TransactionModel> getTransaction(String username)
+    {
+    return repo.getTransactionsByUsername(username);
+    }
+
+    public Optional<TransactionModel> getTransactionById(int id) {
+
+        return repo.findById(id);
     }
 }
