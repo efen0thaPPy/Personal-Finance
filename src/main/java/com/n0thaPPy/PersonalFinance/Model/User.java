@@ -32,4 +32,8 @@ public class User {
     )
     @Column(name="role")
     private Set<Roles> roles=new HashSet<>();
+
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private AccountModel accountModel;
 }
