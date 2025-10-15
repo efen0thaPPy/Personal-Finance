@@ -39,7 +39,7 @@ public class UserController {
         {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 Map.of
-            ("result","not successful","message","username"+ user.getUsername()+" is already taken choose another one"));
+            ("result","not successful","message","username: "+ user.getUsername()+" is already taken choose another one"));
 
         }
         else
@@ -50,7 +50,7 @@ public class UserController {
             User newUser=new User();
             newUser.setUsername(user.getUsername());
             newUser.setPassword(password);
-            newUser.getRoles().add(Roles.ROLES_USER);
+            newUser.getRoles().add(Roles.ROLE_USER);
             detailsService.saveUser(newUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     Map.of("result", "Success",

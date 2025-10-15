@@ -34,7 +34,7 @@ public class CategoryController {
 
        return ResponseEntity.ok(categories);
     }
-    @GetMapping("/transactionType")
+    @GetMapping("/transactionTypes")
     public TransactionType[] getTypes()
     {
        return TransactionType.values();
