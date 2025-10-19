@@ -1,5 +1,6 @@
 package com.n0thaPPy.PersonalFinance.Exception;
 
+import jakarta.persistence.ElementCollection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,23 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.badRequest().body(error);
     }
+    @ExceptionHandler(UsernameExists.class)
+    public ResponseEntity<?>usernameExistsHandler(UsernameExists ex)
+    {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                Map.of
+                    ("result","not successful","message","username: "+ ex.getMessage()));
+
+    }
+    @ExceptionHandler(WrongCredentials.class)
+    public ResponseEntity<?>usernameExistsHandler(WrongCredentials ex)
+    {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body
+                (Map.of("result","Not Successful","message","Wrong Credentials"));
+
+    }
+
+
 
 
 }

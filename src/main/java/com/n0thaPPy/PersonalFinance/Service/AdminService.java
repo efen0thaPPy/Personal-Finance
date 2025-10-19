@@ -1,6 +1,8 @@
 package com.n0thaPPy.PersonalFinance.Service;
 
+import com.n0thaPPy.PersonalFinance.Model.AccountModel;
 import com.n0thaPPy.PersonalFinance.Model.User;
+import com.n0thaPPy.PersonalFinance.Repo.AccountRepo;
 import com.n0thaPPy.PersonalFinance.Repo.UserRepo;
 import com.n0thaPPy.PersonalFinance.Roles;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -21,6 +23,7 @@ public class AdminService {
 
     @Autowired
     private UserRepo repo;
+
 
     private BCryptPasswordEncoder encoder=new BCryptPasswordEncoder(12);
 
@@ -48,6 +51,13 @@ public class AdminService {
                 adminUser.setPassword(encryptedPassword);
                 adminUser.getRoles().add(Roles.ROLE_USER);
                 adminUser.getRoles().add(Roles.ROLE_ADMIN);
+
+                AccountModel accountModel=new AccountModel();
+                accountModel.setUser(adminUser);
+
+
+                adminUser.setAccountModel(accountModel);
+
 
                 repo.save(adminUser);
             }

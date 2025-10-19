@@ -38,18 +38,5 @@ public class MyUserDetailsService implements UserDetailsService {
         return new MyUserDetails(user);
     }
 
-    public User saveUser(User user) {
-       return repo.save(user);
-    }
 
-
-    public boolean doesUsernameExist(String username) {
-       User user=repo.findByUsername(username);
-       return user!=null;
-    }
-
-    public User findUserByUsername(String username)
-    {
-       return repo.findByUsername(username);
-    }
 }

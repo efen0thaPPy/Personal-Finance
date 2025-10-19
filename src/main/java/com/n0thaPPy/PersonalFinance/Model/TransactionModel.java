@@ -1,5 +1,7 @@
 package com.n0thaPPy.PersonalFinance.Model;
 
+import com.n0thaPPy.PersonalFinance.Dtos.TransactionReceiveDto;
+import com.n0thaPPy.PersonalFinance.Dtos.TransactionUpdateReceiverDto;
 import com.n0thaPPy.PersonalFinance.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionModel {
+
+ public TransactionModel(TransactionReceiveDto dto) {
+        money=dto.getMoney();
+        description= dto.getDescription();
+        date=dto.getDate();
+        category=dto.getCategory();
+        type=dto.getType();
+    }
+    public TransactionModel(TransactionUpdateReceiverDto dto) {
+        id=dto.getId();
+        money=dto.getMoney();
+        description= dto.getDescription();
+        date=dto.getDate();
+        category=dto.getCategory();
+        type=dto.getType();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

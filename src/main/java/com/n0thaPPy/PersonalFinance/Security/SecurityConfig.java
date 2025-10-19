@@ -33,7 +33,19 @@ public class SecurityConfig {
         security.authorizeHttpRequests(
                 e->e
                         .requestMatchers("/register","/login").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/swagger-ui/index.html",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/swagger-resources/**",
+                                "/swagger-resources",
+                                "/webjars/**",
+                                "/configuration/ui",
+                                "/configuration/security"
+                        ).permitAll().anyRequest().authenticated())
+
                 .sessionManagement(e->e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .csrf(e->e.disable())

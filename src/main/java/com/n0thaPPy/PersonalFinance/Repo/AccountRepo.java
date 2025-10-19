@@ -11,4 +11,6 @@ import java.util.List;
 public interface AccountRepo extends JpaRepository<AccountModel,Integer> {
 
     AccountModel findAccountModelByUser(User user);
+    @Query("select t from AccountModel t where t.user.username=:username")
+    AccountModel findByUserUsername(@Param("username") String username);
 }

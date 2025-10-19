@@ -1,5 +1,6 @@
 package com.n0thaPPy.PersonalFinance.Model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.n0thaPPy.PersonalFinance.Dtos.EntryDto;
 import com.n0thaPPy.PersonalFinance.Roles;
 import jakarta.persistence.*;
@@ -20,6 +21,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
+    @Column(unique = true,nullable = false)
     private String username;
     private String password;
 
@@ -33,7 +35,8 @@ public class User {
     @Column(name="role")
     private Set<Roles> roles=new HashSet<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
+    @JsonManagedReference
     private AccountModel accountModel;
 }
