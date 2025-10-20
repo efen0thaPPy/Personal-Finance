@@ -1,11 +1,14 @@
 package com.n0thaPPy.PersonalFinance.Service;
 
 import com.n0thaPPy.PersonalFinance.Roles;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,19 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
-    private final String secretkey=getSecretKey();
+
+
+    private final String secretKey;
+
+    public JwtService(@Value("${JWT_SECRET}")String secretKey) {
+        this.secretKey = secretKey;
+        if (secretKey == null || secretKey.trim().isEmpty()) {
+            throw new IllegalStateException("JWT_SECRET is required in .env file");
+        }
+    }
+
+
+
     public String generateToken(String username, Set<Roles> roles) {
 
         Map<String, Object> claims= new HashMap<>();
@@ -35,14 +50,9 @@ public class JwtService {
                 .compact();
 
     }
-    public String getSecretKey()
-    {
-        SecretKey secretKey= Keys.secretKeyFor(SignatureAlgorithm.HS256);
-        return Base64.getEncoder().encodeToString(secretKey.getEncoded());
-    }
     public Key getKey()
     {
-        byte[]keyByte= Decoders.BASE64.decode(secretkey);
+        byte[]keyByte= Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyByte);
     }
     public Claims extractKey(String token)
