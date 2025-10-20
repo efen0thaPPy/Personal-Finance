@@ -24,7 +24,10 @@ public class MoneyTransferController {
     public MoneyTransferController(AccountService service) {
         this.accountService = service;
     }
-
+    /*
+    it might not seem necessary for PersonalFinance app
+     however, I wanted to add it in purpose of demonstrating my skills
+     */
     @PostMapping("/transfer")
     @Operation(security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<?>createTransfer(@RequestBody TransferDto transferDto)
